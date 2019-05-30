@@ -1,0 +1,176 @@
+*
+{
+    margin: 0;
+    padding: 0;
+    font-size: 14px;
+}
+a
+{
+    text-decoration: none;
+}
+b
+{
+    font-weight: normal;
+    font-style: normal;
+    display:inline-block;
+}
+img
+{
+    display: block;
+    border: 0;
+}
+.h
+{
+    width: 1210px;
+    margin: 0 auto;
+}
+clearFix::after
+{
+    display: block;
+    content: "";
+    clear: both;
+    visibility: hidden;
+    overflow: hidden;
+    height:0;
+}
+.flL
+{
+    float: left;
+}
+.flR
+{
+    margin-top: 55px;
+    float: right;
+}
+.jdFont
+{
+    color: #f10215!important;
+}
+.jdBgc
+{
+    background: #f10215!important;
+}
+
+
+/* 顶 */
+.header
+{
+    height: 110px;
+    background: url("../images/regh.jpg") repeat-x left bottom;
+}
+li
+{
+    list-style: none;
+    float: left;
+}
+.flL a
+{
+    width: 160px;
+    height: 50px;
+    display: inline-block;
+    margin-top: 24px;
+    background: url("../images/register.png") no-repeat;
+    text-indent: -999999999999999999999999999999999999999999999999999999999999999999999999999999%;
+    overflow: hidden;
+}
+.welText
+{
+    display: inline-block;
+    font-size: 24px;
+    color: #333;
+    margin-top: 34px;
+}
+.flR li
+{
+    font-size: 17px;
+    color: #999;
+}
+
+
+/* 中部注册组件 */
+.regBox
+{
+    padding-left: 600px;
+    margin: 70px auto;
+    overflow-x: hidden;
+}
+input[type="text"],input[type="password"]
+{
+    height: 25px;
+    line-height: 25px;
+    margin: 10px;
+    padding: 5px;
+    outline: none;
+    border: 1px solid #999;
+}
+.inWidth
+{
+    width: 200px;
+}
+.userSex
+{
+    vertical-align: middle;
+}
+.regBox span
+{
+    width: 100px;
+    display: inline-block;
+    text-align: right;
+}
+.statusIco
+{
+    width: 16px;
+   height: 16px;
+   margin-bottom: -3px;
+}
+.isOk
+{   
+   background: url("../images/register.png") no-repeat 0 -117px;
+}
+.isErr
+{
+    background: url("../images/register.png") no-repeat -17px -117px;
+}
+.errTip
+{
+    border-color:#f10215!important;
+}
+.statusText
+{
+    color: #ff9911;
+}
+.submit
+{
+    display: inline-block;
+    width: 300px;
+    height: 54px;
+    margin: 10px 10px 10px 20px;
+    line-height: 54px;
+    text-align: center;
+    font-size: 16px;
+    color: #fff;
+    letter-spacing: 3px;
+    user-select: none;
+}
+
+/* 底部信息 */
+.footer
+{
+    padding-top: 30px;
+    padding-bottom: 15px;
+    background: #fff;
+    border-top: 1px solid rgb(230,230,230);
+    color: #999;
+}
+.footer p
+{
+    text-align: center;
+    font-size: 12px;
+    margin: 0 0 20px 0;
+}
+.footer a
+{
+    color: #999;
+    font-size: 13px;
+    margin: 0 10px;
+}

@@ -1,0 +1,317 @@
+*
+{
+    margin: 0;
+    padding: 0;
+    font-size: 12px;
+    color: #999;
+}
+a
+{
+    text-decoration: none;
+    display: inline-block;
+}
+li
+{
+    list-style: none;
+}
+img
+{
+    display: block;
+    border: 0;
+    background-size: 100% 100%;
+}
+i,b,s
+{
+    font-weight: normal;
+    font-style: normal;
+}
+.flL
+{
+    float: left;
+}
+.flR
+{
+    float: right;
+}
+.clear::after
+{
+    display: block;
+    content: "";
+    height: 0;
+    clear: both;
+    overflow: hidden;
+    visibility: hidden;
+}
+.h
+{
+    width: 990px;
+    margin: 0 auto;
+}
+a:hover
+{
+    color: #E4393C!important;
+    text-decoration: underline;
+}
+
+/*顶*/
+.header>.h
+{
+    position: relative;
+}
+._logo
+{
+    margin: 10px 0;
+    height: 60px;
+    color: #666;
+    background: #fff;
+    display: inline-block;
+}
+._logo>img
+{
+    width: 170px;
+    height: 60px;
+}
+._logo>b
+{
+    display: inline-block;
+    width: 110px;
+    height: 40px;
+    margin-left: 10px;
+    background-size: 100% 100%;
+    text-indent: -9999px;
+    overflow: hidden;
+    text-align: center;
+    background: url("../images/regwelcome.png");
+}
+.qLink
+{
+    position: absolute;
+    right: 0;
+    bottom: 10px;
+    line-height: 18px;
+}
+.qLink>b
+{
+    display: inline-block;
+    width: 18px;
+    height: 14px;
+    background: url("../images/q-icon.png");
+    margin-right: 4px;
+    float: left;
+    margin-top: 3px;
+}
+
+/*提示区*/
+.tipsBox
+{
+    padding: 10px 0;
+    background: #fff8f0;
+}
+.tipsBox p,.logForm>p
+{
+    text-align: center;
+    word-spacing: 4px;
+    line-height: 16px;
+    height: 16px;
+    padding-left: 16px;
+    position: relative;
+}
+.tipsBox>.h>p>b,.logForm>p>b
+{
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    background: url("../images/icon-tips.png");
+    left: 85px;
+    top: 0;
+}
+
+/*中部*/
+.bannerBox
+{
+    background: #940162;
+}
+.banner
+{
+    height: 475px;
+    background: url("../images/regbanner.jpg");
+    background-size: 100% 100%;
+}
+.logForm
+{
+    margin-top: 10px;
+    width: 346px;
+    background: #fff;
+}
+.logForm>p
+{
+    display: block;
+    padding: 10px 0 10px 10px;
+    background: #fff8f0;
+    text-indent: 10px;
+}
+.form_p
+{
+    top: 10px!important;
+    left: 30px!important;
+}
+.logTab
+{
+    height: 55px;
+    width: 100%;
+}
+.logTab a
+{
+    color: rgb(116,119,116);
+    float: left;
+    width: 172px;
+    font-size: 18px;
+    height: 18px;
+    line-height: 18px;
+    text-align: center;
+    margin-top: 18px;
+}
+.logTab a:first-child
+{
+    border-right: 1px solid rgb(244,244,244);
+}
+.logTab a:hover
+{
+    font-weight: 700;
+    text-decoration: none;
+}
+.formBox
+{
+    text-align: center;
+    margin-bottom: 10px;
+}
+form
+{
+    margin-top: 30px;
+}
+.usName,.usPwd
+{
+    position: relative;
+}
+.inp_ico
+{
+    width: 38px;
+    height: 38px;
+    position: absolute;
+    top: 1px;
+    left: 21px;
+    border-right: 1px solid rgb(189,189,189);
+}
+.inp_con
+{
+    width: 254px;
+    height: 18px;
+    border: 1px solid rgb(189,189,189);
+    padding: 10px 0 10px 50px;
+    margin-bottom: 20px;
+    outline: none;
+}
+.logN
+{
+    background: url("../images/pwd-icons-new.png") no-repeat;
+}
+.logP
+{
+    background: url("../images/pwd-icons-new.png") no-repeat -48px 0;
+}
+.passPort
+{
+    margin-bottom: 20px;
+    text-align: right;
+    display: inline-block;
+    width: 304px;
+}
+.logSubimt
+{
+    color: #fff;
+    font-weight: 700;
+    display: block;
+    width: 302px;
+    height: 31px;
+    font-size: 20px;
+    line-height: 31px;
+    border: 1px solid rgb(203,42,45);
+    background: #e4393c;
+    margin-left: 20px;
+    margin-bottom: 20px;
+}
+.logSubimt:hover
+{
+    color: #fff!important;
+    text-decoration: none;
+}
+ul
+{
+    width: 306px;
+    height: 50px;
+}
+ul>li
+{
+    float: left;
+    margin-left: 20px;
+    line-height: 50px;
+}
+ul>li>b
+{
+    width: 19px;
+    height: 18px;
+    display: inline-block;
+}
+ul>li>a
+{
+    height: 50px;
+    line-height: 50px;
+    display: inline-block;
+}
+.QQIco,.WXIco,.nowReg
+{
+    margin-bottom: -5px;
+}
+.QQIco
+{
+    background: url("../images/QQ-weixin.png");
+}
+.WXIco
+{
+    background: url("../images/QQ-weixin.png")-19px 0;
+}
+.nowReg
+{
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    margin-right: 5px;
+    background: url("../images/pwd-icons-new.png") no-repeat -104px -75px;
+}
+.regLi>a
+{
+    color: #b61d1d;
+}
+.regLi>a:hover
+{
+    color: #b61d1d;
+}
+
+/*底部*/
+.footer
+{
+    margin: 20px 0;
+    text-align: center;
+}
+.footer a,.footer p
+{
+    color: #666;
+}
+.footer a
+{
+    margin: 0 10px;
+}
+.cop
+{
+    margin-top: 15px;
+}
