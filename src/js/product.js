@@ -264,15 +264,16 @@ $(function ()
         // 数量input失去焦点检测
         $(".numInp").on("blur",function()
         {
-            if(this.value<0)
+            let tmpNum=parseInt(this.value);
+            if(tmpNum<0)
             {
                 this.value=1;
             }
-            if(this.value>window.itemMax)
+            else if(tmpNum>window.itemMax)
             {
                 this.value=window.itemMax;
             }
-            if(this.value==="")
+            else if(this.value==="")
             {
                 this.value=1;
             }

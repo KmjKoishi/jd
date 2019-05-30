@@ -32,6 +32,17 @@ $(function ()
             $(".face").attr("src","../images/no_login.jpg");
         }
     }
+    // 退出登录点击事件
+    $(".quitLogin").on("click",function()
+    {
+        if($(this).attr("href")==="javascript:;")
+        {
+            cookie.remove("isLogin");
+            cookie.remove("userName");
+            alert("退出成功，欢迎下次再来！");
+            location.reload();
+        }
+    });
 
     // 置随机数
     function randNum(minNum,maxNum)
@@ -109,7 +120,6 @@ $(function ()
                     success:function(data)
                     {
                         data=$.parseJSON(data);
-                        // console.log(data);
                         for(let i=0;i<data.length;i++)
                         {
                             let itemBox=$("<div class=\"itmBox\">\n" +
@@ -163,6 +173,14 @@ $(function ()
         {
             $(".cartConBox").addClass("cartisHidden");
             $(".cartEmptyBox").removeClass("cartisHidden");
+            if(cookie.get("isLogin"))
+            {
+                $(".logBtn").css("display","none");
+            }
+            else
+            {
+                $(".logBtn").css("display","inline-block");
+            }
         }
     }
     
@@ -223,8 +241,23 @@ $(function ()
     // 选择商品checkbox被点击
     $("body").on("click",".itmCheckbox",function()
     {
+        // 创建临时数组取出cookie
+        let tmpArr=cookie.get("checkbox").split(",");
+        // 遍历所有checkbox，取出点击checkbox的索引，根据点击的checkbox的checked值来替换临时数组对应下标的值
+        // 为true时替换为1，false时替换成0
+        if(this.checked)
+        {
+            tmpArr[$("input[type=checkbox]").index($(this))]=1;
+        }
+        else
+        {
+            tmpArr[$("input[type=checkbox]").index($(this))]=0;
+        }
+        // 修改cookie
+        cookie.set("checkbox",tmpArr,1);
+        // 渲染总价
         jdCheckBox();
-    })
+    });
 
     // 全选商品checkbox被点击
     $(".checkBox>input").on("click",function()
@@ -265,6 +298,8 @@ $(function ()
     {
         // 总价数组
         let totalArr=[];
+        // 临时计数变量
+        let itemRes=0;
         for(let i=0;i<$(".itmSum>strong").length;i++)
         {
             if($(".itmConBox").find(".itmCheckbox")[i].checked)
@@ -273,6 +308,14 @@ $(function ()
             }
         }
         $(".priceSum>em").html("¥"+itemTotalPrice(totalArr).toFixed(2));
+        for(let i=0;i<$(".itmCheckbox").length;i++)
+        {
+            if($(".itmCheckbox")[i].checked)
+            {
+                itemRes++;
+            }
+        }
+        $(".connRight .jdFont").html(itemRes);
     }
 
     // 数量增加被点击
@@ -284,6 +327,9 @@ $(function ()
             alert("所选数量超过了库存数量，请重新输入");
             $(this).parents(".itmConBox").find(".itmSum>strong").html("¥"+itemTotalPrice(this));
 
+            // 单项商品数量点击增加时候，修改cookie内存的原数值
+            addShopCar($(this).parents(".itmConBox").find(".itmImgBox").attr("href").split("=")[1],$(this).parents(".itmConBox").find(".itmRes").val());
+
             // 调用函数判断选择商品checkbox状态，为true渲染总价
             jdCheckBox();
         }
@@ -292,6 +338,9 @@ $(function ()
             let tmpNum=parseInt($(this).parents(".itmConBox").find(".itmRes").val());
             $(this).parents(".itmConBox").find(".itmRes").val(tmpNum+1);
             $(this).parents(".itmConBox").find(".itmSum>strong").html("¥"+itemTotalPrice(this));
+
+            // 单项商品数量点击增加时候，修改cookie内存的原数值
+            addShopCar($(this).parents(".itmConBox").find(".itmImgBox").attr("href").split("=")[1],$(this).parents(".itmConBox").find(".itmRes").val());
 
             // 调用函数判断选择商品checkbox状态，为true渲染总价
             jdCheckBox();
@@ -306,6 +355,9 @@ $(function ()
             alert("所选数量超过了库存数量，请重新输入");
             $(this).parents(".itmConBox").find(".itmSum>strong").html("¥"+itemTotalPrice(this));
 
+            // 单项商品数量点击减少时候，修改cookie内存的原数值
+            addShopCar($(this).parents(".itmConBox").find(".itmImgBox").attr("href").split("=")[1],$(this).parents(".itmConBox").find(".itmRes").val());
+
             // 调用函数判断选择商品checkbox状态，为true渲染总价
             jdCheckBox();
         }
@@ -314,6 +366,9 @@ $(function ()
             let tmpNum=parseInt($(this).parents(".itmConBox").find(".itmRes").val());
             $(this).parents(".itmConBox").find(".itmRes").val(tmpNum-1);
             $(this).parents(".itmConBox").find(".itmSum>strong").html("¥"+itemTotalPrice(this));
+
+            // 单项商品数量点击减少时候，修改cookie内存的原数值
+            addShopCar($(this).parents(".itmConBox").find(".itmImgBox").attr("href").split("=")[1],$(this).parents(".itmConBox").find(".itmRes").val());
 
             // 调用函数判断选择商品checkbox状态，为true渲染总价
             jdCheckBox();
@@ -338,7 +393,67 @@ $(function ()
         // 渲染小计价格
         $(this).parents(".itmConBox").find(".itmSum>strong").html("¥"+itemTotalPrice(this));
 
+        // 单项商品数量input失去焦点判断是否改变过value，如果改变过则更改cookie内原数值
+        addShopCar($(this).parents(".itmConBox").find(".itmImgBox").attr("href").split("=")[1],$(this).parents(".itmConBox").find(".itmRes").val());
+
         // 调用函数判断选择商品checkbox状态，为true渲染总价
         jdCheckBox();
+    });
+
+    // 购物车存cookie处理
+    function addShopCar(id, num) {
+        // 获取cookie
+        var shop = cookie.get('shop');
+        // 根据传入参数创建商品JSON对象
+        var product = {
+            "id": id,
+            "num": num
+        };
+
+        // 判断如果有cookie
+        if (shop)
+        {
+            // 将push到数组内的字符串转成json对象
+            shop = JSON.parse(shop);
+            // 调用some函数判断是否点击商品已存过cookie
+            if (shop.some(elm => elm.id == id))
+            {
+                shop.forEach(function(elm, i)
+                {
+                    // 如果匹配到，操作被匹配到的商品的数量，替换位最后一次点击的最新数值
+                    elm.id == id ? elm.num = num : null;
+                    cookie.set("carNum",(i+1),1)
+                });
+            }
+            // 否则表示点击的商品未存过cookie
+            else
+            {
+                // 存
+                shop.push(product);
+            }
+            cookie.set('shop', JSON.stringify(shop), 1);
+        }
+        // 如果没cookie
+        else
+        {
+            // 创建数组，用于push json对象
+            shop = [];
+            // push
+            shop.push(product);
+            // 设置当前商品的cookie
+            cookie.set('shop', JSON.stringify(shop), 1);
+        }
+    }
+
+    // 清理购物车被点击
+    $(".removeAllItems").on("click",function()
+    {
+        if(confirm("确定清除购物车内所有物品吗？此操作不可逆！"))
+        {
+            cookie.remove("shop");
+            cookie.remove("checkbox");
+            cookie.remove("carNum");
+            location.reload();
+        }
     });
 });
