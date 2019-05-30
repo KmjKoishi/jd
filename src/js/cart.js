@@ -104,7 +104,7 @@ $(function ()
     getItem();
     function getItem()
     {
-        if(cookie.get("shop"))
+        if(cookie.get("shop")&&cookie.get("shop")!=="[]")
         {
             $(".cartConBox").removeClass("cartisHidden");
             $(".cartEmptyBox").addClass("cartisHidden");
@@ -155,7 +155,7 @@ $(function ()
                             "                        </div>\n" +
                             "                        <div class=\"cell\">\n" +
                             "                            <a href=\"javascript:;\" class=\"itmDel\">删除</a>\n" +
-                            "                            <a href=\"javascript:;\" class=\"itmDel\">移到我的关注</a>\n" +
+                            "                            <a href=\"javascript:;\" class=\"itmRemove\">移到我的关注</a>\n" +
                             "                        </div>\n" +
                             "                    </div>\n" +
                             "                </div>");
@@ -455,5 +455,67 @@ $(function ()
             cookie.remove("carNum");
             location.reload();
         }
+    });
+
+    // 商品右侧删除选项被点击
+    $("body").on("click",".itmDel",function()
+    {
+        // 取cookie内商品信息
+        let item=$.parseJSON(cookie.get("shop"));
+        // 取点击的商品的id
+        let delID=($(this).parents(".itmConBox").find(".itmImgBox").attr("href").split("=")[1]);
+        // for循环比对cookie内的id是否与取到的id匹配，如果匹配，删除匹配项
+        for(let i=0;i<item.length;i++)
+        {
+            if(item[i].id===delID)
+            {
+                item.splice(i,1);
+            }
+        }
+        // 删除完毕继续将剩下的商品信息转成json字符串
+        item=JSON.stringify(item);
+        // 存入cookie内
+        cookie.set("shop",item,1);
+        // 修改商品数量cookie
+        cookie.set("carNum",parseInt(cookie.get("carNum")-1));
+        // 刷新页面
+        location.reload();
+    });
+
+    // 删除选中商品被点击
+    $(".delSelectItem").on("click",function()
+    {
+        // 取cookie内商品信息
+        let item=$.parseJSON(cookie.get("shop"));
+        // 创建ID数组
+        let IDs=[];
+        // 遍历商品checkbox，取选中状态的checkbox，将该商品的ID push进数组
+        for(let i=0;i<$(".itmCheckbox").length;i++)
+        {
+            if($(".itmCheckbox")[i].checked)
+            {
+                IDs.push($($(".itmCheckbox")[i]).parents(".itmConBox").find(".itmImgBox").attr("href").split("=")[1]);
+            }
+        }
+        // for+for遍历取出的cookie，如果匹配到存过的ID，则进行删除操作
+        for(let j=0;j<IDs.length;j++)
+        {
+            for(let k=0;k<item.length;k++)
+            {
+                if(IDs[j]===item[k].id)
+                {
+                    item.splice(k,1);
+                    k--;
+                }
+            }
+        }
+        // 删除完毕继续将剩下的商品信息转成json字符串
+        item=JSON.stringify(item);
+        // 存入cookie内
+        cookie.set("shop",item,1);
+        // 修改商品数量cookie
+        cookie.set("carNum",parseInt(cookie.get("carNum")-IDs.length));
+        // 刷新页面
+        location.reload();
     });
 });
