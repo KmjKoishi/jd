@@ -295,8 +295,8 @@ $(function ()
 
     // 中部大轮播
     let timer1Set=1;
-    let timer1=function ()
-    {
+    let timer1=setInterval(bannerShow,2000);
+    function bannerShow(){
         $(".bannerBox>a>img").stop().animate(
             {
                 "opacity":0,
@@ -333,8 +333,126 @@ $(function ()
                         }
                     });
             });
-    };
-    setInterval(timer1,2000);
+    }
+    // 中部大轮播开关及切换逻辑
+    $(".bannerBox").hover(function()
+    {
+        // 鼠标移入轮播范围，关闭计时器
+        clearInterval(timer1);
+        // 鼠标移入小圆点，取小圆点下标并根据下标渲染出对应图片
+        $(".gridRightBox .sliderBox li").on("mouseenter",function()
+        {
+            let that=this;
+            timer1Set=+$(".gridRightBox .sliderBox li").index($(this));
+            $(".bannerBox>a>img").stop().animate(
+                {
+                    "opacity":0,
+                    "zIndex":0,
+                    "position": "relative"
+                },100,function()
+                {   
+                    $(".bannerBox>a>img")[0].setAttribute("src","../images/lb"+timer1Set+".jpg");
+                    $(".bannerBox>a>img")[0].setAttribute("alt","lb"+timer1Set);
+
+                    $(".gridRightBox .sliderBox li").removeClass("isSelectParent");
+                    $(".sliderBox>ul>li>b").removeClass("isSelectChild");
+                    $(that).addClass("isSelectParent");
+                    $($(".sliderBox>ul>li>b")[timer1Set]).addClass("isSelectChild");
+
+                    $(".bannerBox>a>img").stop().animate(
+                        {
+                            "opacity":1,
+                            "zIndex":0,
+                            "position": "relative",
+                        });
+                });
+        });
+
+        // 中部轮播上一张被点击
+        $(".gridRightBox .leftBtn").on("click",function()
+        {
+            // 索引--
+            timer1Set--;
+            if(timer1Set>7)
+            {
+                timer1Set=0;
+            }
+            else if(timer1Set<1)
+            {
+                timer1Set=7;
+            }
+            // 根据索引渲染对应图片与小圆点
+            $(".bannerBox>a>img").stop().animate(
+                {
+                    "opacity":0,
+                    "zIndex":0,
+                    "position": "relative"
+                },100,function()
+                {   
+                    $(".bannerBox>a>img")[0].setAttribute("src","../images/lb"+timer1Set+".jpg");
+                    $(".bannerBox>a>img")[0].setAttribute("alt","lb"+timer1Set);
+
+                    $(".gridRightBox .sliderBox li").removeClass("isSelectParent");
+                    $(".sliderBox>ul>li>b").removeClass("isSelectChild");
+                    $($(".gridRightBox .sliderBox li")[timer1Set]).addClass("isSelectParent");
+                    $($(".sliderBox>ul>li>b")[timer1Set]).addClass("isSelectChild");
+
+                    $(".bannerBox>a>img").stop().animate(
+                        {
+                            "opacity":1,
+                            "zIndex":0,
+                            "position": "relative",
+                        });
+                });
+        });
+
+        // 中部轮播上一张被点击
+        $(".gridRightBox .rightBtn").on("click",function()
+        {
+            // 索引++
+            timer1Set++;
+            if(timer1Set>7)
+            {
+                timer1Set=0;
+            }
+            else if(timer1Set<1)
+            {
+                timer1Set=7;
+            }
+            // 根据索引渲染图片与小圆点
+            $(".bannerBox>a>img").stop().animate(
+                {
+                    "opacity":0,
+                    "zIndex":0,
+                    "position": "relative"
+                },100,function()
+                {   
+                    $(".bannerBox>a>img")[0].setAttribute("src","../images/lb"+timer1Set+".jpg");
+                    $(".bannerBox>a>img")[0].setAttribute("alt","lb"+timer1Set);
+
+                    $(".gridRightBox .sliderBox li").removeClass("isSelectParent");
+                    $(".sliderBox>ul>li>b").removeClass("isSelectChild");
+                    $($(".gridRightBox .sliderBox li")[timer1Set]).addClass("isSelectParent");
+                    $($(".sliderBox>ul>li>b")[timer1Set]).addClass("isSelectChild");
+
+                    $(".bannerBox>a>img").stop().animate(
+                        {
+                            "opacity":1,
+                            "zIndex":0,
+                            "position": "relative",
+                        });
+                });
+        });
+    },function()
+    {
+        // 鼠标移出后恢复轮播
+        timer1Set++;
+        if(timer1Set>7||timer1Set<0)
+        {
+            timer1Set=0;
+        }
+        timer1=setInterval(bannerShow,2000);
+    });
 
     // 秒杀倒计时
     let RanTimerH=randNum(0,1);
@@ -484,7 +602,8 @@ $(function ()
 
     // 秒杀轮播计时器
     let tMoveLeft=792;
-    let skBannerTimer=function ()
+    let skBannerTimer=setInterval(bannerMove,3000);
+    function bannerMove()
     {
         $(".itemBox").stop().animate(
             {
@@ -498,8 +617,47 @@ $(function ()
                     tMoveLeft=792;
                 }
             });
-    };
-    setInterval(skBannerTimer,4000);
+    }
+    // 鼠标移入秒杀区，轮播停止
+    $(".skInnerBox").hover(function()
+    {
+        clearInterval(skBannerTimer);
+    },function()
+    {
+        // 移出，轮播继续
+        skBannerTimer=setInterval(bannerMove,3000);
+    });
+
+    // 秒杀轮播上一版被点击
+    $(".skBannerBox .leftBtn").on("mousedown",function()
+    {
+        // 减少定位left值，做动画移动
+        tMoveLeft-=792;
+        if(tMoveLeft===0)
+        {
+            tMoveLeft=2376;
+        }
+        $(".itemBox").stop().animate(
+            {
+                "left":"-"+tMoveLeft+"px",
+            },700);
+    });
+
+    // 秒杀轮播下一版被点击
+    $(".skBannerBox .rightBtn").on("mousedown",function()
+    {
+        // 减少定位left值，做动画移动
+        tMoveLeft+=792;
+        if(tMoveLeft===2376)
+        {
+            tMoveLeft=0;
+        }
+        $(".itemBox").stop().animate(
+            {
+                "left":"-"+tMoveLeft+"px",
+            },700);
+    });
+    
 
     // 秒杀右部轮播计时器
     let tChnMoveLeft= 188;
@@ -807,176 +965,71 @@ $(function ()
     soRichAppend();
     function soRichAppend()
     {
-        for(let x=0;x<50;x++)
+        for(var d=0;d<3;d++)
         {
-            let elSet,elSet2,outPrice;
-            let r=randNum(1,10);
-            let r2=randNum(1,10);
-            if(r>=9)
+            for(let x=0;x<50;x++)
             {
-                elSet="jx";
+                let elSet,elSet2,outPrice;
+                let r=randNum(1,10);
+                let r2=randNum(1,10);
+                if(r>=9)
+                {
+                    elSet="jx";
+                }
+                else if(r>=5)
+                {
+                    elSet="zy";
+                }
+                else
+                {
+                    elSet="";
+                }
+                if(r2>=9)
+                {
+                    elSet2="券";
+                }
+                else if(r2>=5)
+                {
+                    elSet2="满减";
+                }
+                else
+                {
+                    elSet2="";
+                }
+                if(soRichPriceArr[x].toString().split(".").length>1)
+                {
+                    outPrice=soRichPriceArr[x].toString()+"0";
+                }
+                else
+                {
+                    outPrice=soRichPriceArr[x].toString()+".00";
+                }
+                let $soRichChild=$("<li>\n" +
+                    "                    <a href=\"javascript:;\">\n" +
+                    "                        <img data-original=\"../images/br"+x+".webp\" src=\"../images/br"+x+".webp\" alt=\"br"+(x+1)+"\" class=\"lazy\">\n" +
+                    "                        <p class=\"rTit\"><i class=\""+elSet+"\"></i>"+soRichTitArr[x]+"</p>\n" +
+                    "                        <div class=\"brPrice\">\n" +
+                    "                            <i>¥</i>\n" +
+                    "                            <span>"+outPrice+"</span>\n" +
+                    "                            <b class=\"yhq\">"+elSet2+"</b>\n" +
+                    "                        </div>\n" +
+                    "                        <div class=\"brMask\"></div>\n" +
+                    "                    </a>\n" +
+                    "                    <div class=\"moreItm\">\n" +
+                    "                        <a href=\"javascript:;\" class=\"like\"><b></b>找相似</a>\n" +
+                    "                        <a href=\"javascript:;\" class=\"dtlike\"><b></b>不喜欢</a>\n" +
+                    "                    </div>\n" +
+                    "                </li>");
+                if(elSet === "zy")
+                {
+                    $soRichChild.find(".rTit").find("i").html("自营");
+                }
+                if(elSet2 === "")
+                {
+                    $soRichChild.find(".brPrice").find("b").removeClass("yhq");
+                }
+                $soRichChild.appendTo(".soRich>.h>ul");
             }
-            else if(r>=5)
-            {
-                elSet="zy";
-            }
-            else
-            {
-                elSet="";
-            }
-            if(r2>=9)
-            {
-                elSet2="券";
-            }
-            else if(r2>=5)
-            {
-                elSet2="满减";
-            }
-            else
-            {
-                elSet2="";
-            }
-            if(soRichPriceArr[x].toString().split(".").length>1)
-            {
-                outPrice=soRichPriceArr[x].toString()+"0";
-            }
-            else
-            {
-                outPrice=soRichPriceArr[x].toString()+".00";
-            }
-            let $soRichChild=$("<li>\n" +
-                "                    <a href=\"javascript:;\">\n" +
-                "                        <img src=\"../images/br"+x+".webp\" alt=\"br"+(x+1)+"\">\n" +
-                "                        <p class=\"rTit\"><i class=\""+elSet+"\"></i>"+soRichTitArr[x]+"</p>\n" +
-                "                        <div class=\"brPrice\">\n" +
-                "                            <i>¥</i>\n" +
-                "                            <span>"+outPrice+"</span>\n" +
-                "                            <b class=\"yhq\">"+elSet2+"</b>\n" +
-                "                        </div>\n" +
-                "                        <div class=\"brMask\"></div>\n" +
-                "                    </a>\n" +
-                "                    <div class=\"moreItm\">\n" +
-                "                        <a href=\"javascript:;\" class=\"like\"><b></b>找相似</a>\n" +
-                "                        <a href=\"javascript:;\" class=\"dtlike\"><b></b>不喜欢</a>\n" +
-                "                    </div>\n" +
-                "                </li>");
-            if(elSet === "zy")
-            {
-                $soRichChild.find(".rTit").find("i").html("自营");
-            }
-            if(elSet2 === "")
-            {
-                $soRichChild.find(".brPrice").find("b").removeClass("yhq");
-            }
-            $soRichChild.appendTo(".soRich>.h>ul");
-        }
-        for(let d=0;d<50;d++)
-        {
-            let elSet,elSet2,outPrice;
-            let r=randNum(1,10);
-            if(r>=9)
-            {
-                elSet="jx";
-                elSet2="券";
-            }
-            else if(r>=5)
-            {
-                elSet="zy";
-                elSet2="满减";
-            }
-            else
-            {
-                elSet="";
-                elSet2="";
-            }
-
-            if(soRichPriceArr[d].toString().split(".").length>1)
-            {
-                outPrice=soRichPriceArr[d].toString()+"0";
-            }
-            else
-            {
-                outPrice=soRichPriceArr[d].toString()+".00";
-            }
-            let $soRichChild=$("<li>\n" +
-                "                    <a href=\"javascript:;\">\n" +
-                "                        <img src=\"../images/br"+d+".webp\" alt=\"br"+(d+1)+"\">\n" +
-                "                        <p class=\"rTit\"><i class=\""+elSet+"\"></i>"+soRichTitArr[d]+"</p>\n" +
-                "                        <div class=\"brPrice\">\n" +
-                "                            <i>¥</i>\n" +
-                "                            <span>"+outPrice+"</span>\n" +
-                "                            <b class=\"yhq\">"+elSet2+"</b>\n" +
-                "                        </div>\n" +
-                "                        <div class=\"brMask\"></div>\n" +
-                "                    </a>\n" +
-                "                    <div class=\"moreItm\">\n" +
-                "                        <a href=\"javascript:;\" class=\"like\"><b></b>找相似</a>\n" +
-                "                        <a href=\"javascript:;\" class=\"dtlike\"><b></b>不喜欢</a>\n" +
-                "                    </div>\n" +
-                "                </li>");
-            if(elSet === "zy")
-            {
-                $soRichChild.find(".rTit").find("i").html("自营");
-            }
-            if(elSet2 === "")
-            {
-                $soRichChild.find(".brPrice").find("b").removeClass("yhq");
-            }
-            $soRichChild.appendTo(".soRich>.h>ul");
-        }
-        for(let c=0;c<50;c++)
-        {
-            let elSet,elSet2,outPrice;
-            let r=randNum(1,10);
-            if(r>=9)
-            {
-                elSet="jx";
-                elSet2="券";
-            }
-            else if(r>=5)
-            {
-                elSet="zy";
-                elSet2="满减";
-            }
-            else
-            {
-                elSet="";
-                elSet2="";
-            }
-
-            if(soRichPriceArr[c].toString().split(".").length>1)
-            {
-                outPrice=soRichPriceArr[c].toString()+"0";
-            }
-            else
-            {
-                outPrice=soRichPriceArr[c].toString()+".00";
-            }
-            let $soRichChild=$("<li>\n" +
-                "                    <a href=\"javascript:;\">\n" +
-                "                        <img src=\"../images/br"+c+".webp\" alt=\"br"+(c+1)+"\">\n" +
-                "                        <p class=\"rTit\"><i class=\""+elSet+"\"></i>"+soRichTitArr[c]+"</p>\n" +
-                "                        <div class=\"brPrice\">\n" +
-                "                            <i>¥</i>\n" +
-                "                            <span>"+outPrice+"</span>\n" +
-                "                            <b class=\"yhq\">"+elSet2+"</b>\n" +
-                "                        </div>\n" +
-                "                        <div class=\"brMask\"></div>\n" +
-                "                    </a>\n" +
-                "                    <div class=\"moreItm\">\n" +
-                "                        <a href=\"javascript:;\" class=\"like\"><b></b>找相似</a>\n" +
-                "                        <a href=\"javascript:;\" class=\"dtlike\"><b></b>不喜欢</a>\n" +
-                "                    </div>\n" +
-                "                </li>");
-            if(elSet === "zy")
-            {
-                $soRichChild.find(".rTit").find("i").html("自营");
-            }
-            if(elSet2 === "")
-            {
-                $soRichChild.find(".brPrice").find("b").removeClass("yhq");
-            }
-            $soRichChild.appendTo(".soRich>.h>ul");
         }
     }
 
@@ -1049,4 +1102,10 @@ $(function ()
         }
     };
     setInterval(placTimer,3500);
+});
+
+// 图片懒加载
+$(function()
+{
+    $("img.lazy").lazyload({effect: "slideDown"});
 });

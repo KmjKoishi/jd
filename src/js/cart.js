@@ -522,4 +522,31 @@ $(function ()
         // 刷新页面
         location.reload();
     });
+
+    // 购买按钮被点击
+    $(".buySubBtn").on("click",function()
+    {
+        let itmNum=0;
+        for(let i=0;i<$(".itmCheckbox").length;i++)
+        {
+            if($(".itmCheckbox")[i].checked)
+            {
+                itmNum++;
+            }
+        }
+        if(itmNum)
+        {
+            if(confirm("确定下单吗？"))
+            {
+                // cookie.remove("carNum");
+                // cookie.remove("shop");
+                // cookie.remove("checkbox");
+                location.href="../html/over.html";
+            }
+        }
+        else
+        {
+            alert("请先勾选需要结账的商品再结算！");
+        }
+    });
 });
