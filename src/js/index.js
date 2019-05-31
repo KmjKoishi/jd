@@ -7,10 +7,12 @@ $(function ()
         if(cookie.get("carNum"))
         {
             $(".carNum").html(cookie.get("carNum"));
+            $(".shopCarTwoMenu b").html("已选<span> "+cookie.get("carNum")+" </span>件商品，立即付款购买！");
         }
         else
         {
             $(".carNum").html(0);
+            $(".shopCarTwoMenu b").html("购物车中还没有商品，赶紧选购吧！");
         }
     }
 

@@ -7,10 +7,12 @@ $(function ()
         if(cookie.get("carNum"))
         {
             $(".carNum").html(cookie.get("carNum"));
+            $(".shopCarTwoMenu b").html("已选<span> "+cookie.get("carNum")+" </span>件商品，立即付款购买！");
         }
         else
         {
             $(".carNum").html(0);
+            $(".shopCarTwoMenu b").html("购物车中还没有商品，赶紧选购吧！");
         }
     }
 
@@ -181,7 +183,7 @@ $(function ()
         "铝合金油壶",
         "铝合金杯子",
         "5元话费充值卡(移动联通电信通用)",
-        "雷军笑容同款''ARE YOU OK?'毛绒玩具",
+        "雷军笑容同款\" ARE YOU OK? \"毛绒玩具",
         "小黄人钥匙扣",
         "京东通用满1000减0.5优惠券",
         "天猫3元购物卡",
@@ -210,6 +212,7 @@ $(function ()
             success:function(data)
             {
                 data=$.parseJSON(data);
+                $("title").html(data.title);
                 $(".itmTit").html(data.title);
                 $(".small-box>img").attr("src",$.parseJSON(data.pic)[0].src).attr("alt",$.parseJSON(data.pic)[0].title);
                 $(".item-cur").attr("data-src",$.parseJSON(data.pic)[0].src);

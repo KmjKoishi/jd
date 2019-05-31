@@ -470,6 +470,8 @@ $(function ()
             if(item[i].id===delID)
             {
                 item.splice(i,1);
+                // 删除被删除下标的checkbox cookie，并重新存入cookie
+                cookie.set("checkbox",cookie.get("checkbox").split(",").splice(i,1),1);
             }
         }
         // 删除完毕继续将剩下的商品信息转成json字符串
@@ -505,6 +507,8 @@ $(function ()
                 if(IDs[j]===item[k].id)
                 {
                     item.splice(k,1);
+                    // 删除被删除下标的checkbox cookie，并重新存入cookie
+                    cookie.set("checkbox",cookie.get("checkbox").split(",").splice(j,1),1);
                     k--;
                 }
             }

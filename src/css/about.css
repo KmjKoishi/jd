@@ -679,6 +679,11 @@ img
     height: 49px;
     background: url("../images/car.png") no-repeat;
 }
+.shopCarTwoMenu b>span
+{
+    color: #f10215;
+    font-weight: 700;
+}
 .shopCarMask
 {
     position: absolute;
