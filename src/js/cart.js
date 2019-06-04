@@ -499,28 +499,31 @@ $(function ()
                 IDs.push($($(".itmCheckbox")[i]).parents(".itmConBox").find(".itmImgBox").attr("href").split("=")[1]);
             }
         }
-        // for+for遍历取出的cookie，如果匹配到存过的ID，则进行删除操作
-        for(let j=0;j<IDs.length;j++)
+        if(IDs.length)
         {
-            for(let k=0;k<item.length;k++)
+            // for+for遍历取出的cookie，如果匹配到存过的ID，则进行删除操作
+            for(let j=0;j<IDs.length;j++)
             {
-                if(IDs[j]===item[k].id)
+                for(let k=0;k<item.length;k++)
                 {
-                    item.splice(k,1);
-                    // 删除被删除下标的checkbox cookie，并重新存入cookie
-                    cookie.set("checkbox",cookie.get("checkbox").split(",").splice(j,1),1);
-                    k--;
+                    if(IDs[j]===item[k].id)
+                    {
+                        item.splice(k,1);
+                        // 删除被删除下标的checkbox cookie，并重新存入cookie
+                        cookie.set("checkbox",cookie.get("checkbox").split(",").splice(j,1),1);
+                        k--;
+                    }
                 }
             }
+            // 删除完毕继续将剩下的商品信息转成json字符串
+            item=JSON.stringify(item);
+            // 存入cookie内
+            cookie.set("shop",item,1);
+            // 修改商品数量cookie
+            cookie.set("carNum",parseInt(cookie.get("carNum")-IDs.length));
+            // 刷新页面
+            location.reload();
         }
-        // 删除完毕继续将剩下的商品信息转成json字符串
-        item=JSON.stringify(item);
-        // 存入cookie内
-        cookie.set("shop",item,1);
-        // 修改商品数量cookie
-        cookie.set("carNum",parseInt(cookie.get("carNum")-IDs.length));
-        // 刷新页面
-        location.reload();
     });
 
     // 购买按钮被点击
